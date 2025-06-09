@@ -1,0 +1,61 @@
+{
+	"position": "top", // Waybar position (top|bottom|left|right)
+		// "height": 5, // Waybar height (to be removed for auto height)
+		"modules-left": ["hyprland/workspaces", "hyprland/submap"],
+		"modules-center": ["hyprland/window"],
+		"modules-right": ["pulseaudio", "network", "cpu", "memory", "clock", "tray"],
+
+		"hyprland/window": {
+			"format": "{}",
+			"rewrite": {
+				"(.*) — Mozilla Firefox": "🌎 $1",
+				"(.*) - fish": "> [$1]"
+			},
+			"separate-outputs": true
+		},
+
+		"tray": {
+			"spacing": 20
+		},
+
+		"clock": {
+			"interval": 60,
+			"format": "{:%d/%m/%Y %H:%M}",
+			"max-length": 25,
+			"format-alt": "{:%Y-%m-%d}"
+		},
+
+		"cpu": {
+			"format": "{usage}%",
+			"tooltip": false
+		},
+
+		"memory": {
+			"format": "{}% "
+		},
+
+		"temperature": {
+			"critical-threshold": 80,
+			"format": "{temperatureC}°C {icon}",
+			"format-icons": ["", "", ""]
+		},
+
+		"network": {
+			"format-ethernet": "{ipaddr}/{cidr}",
+			"format-linked": "{ifname} (No IP)",
+			"format-disconnected": "Disconnected ",
+			"format-alt": "{ifname}: {ipaddr}/{cidr}"
+		},
+
+		"pulseaudio": {
+			// "scroll-step": 1, // %, can be a float
+			"format": "{volume}%  {format_source}",
+			"format-bluetooth": "{volume}%  {format_source}",
+			"format-bluetooth-muted": " {format_source}",
+			"format-muted": " {format_source}",
+			"format-source": "{volume}% ",
+			"format-source-muted": "",
+			"on-click": "pavucontrol"
+		},
+
+}
