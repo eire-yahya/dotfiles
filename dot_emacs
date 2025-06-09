@@ -1,0 +1,118 @@
+(require 'tree-sitter)
+(setq custom-file "~/.emacs.custom.el")
+
+;; Adding `/path/to/simpc` to load-path so `require` can find it
+(add-to-list 'load-path "~/emacs-plugins/simp-c")
+;; Importing simpc-mode
+(require 'simpc-mode)
+;; Automatically enabling simpc-mode on files with extensions like .h, .c, .cpp, .hpp
+(add-to-list 'auto-mode-alist '("\\.[hc]\\(pp\\)?\\'" . simpc-mode))
+
+;;(require 'evil)
+;;(evil-mode 1)
+
+(use-package tuareg
+  :ensure t
+  :mode (("\\.ocamlinit\\'" . tuareg-mode)))
+
+(add-to-list 'major-mode-remap-alist '(neocaml-mode . tuareg-mode))
+(add-to-list 'major-mode-remap-alist '(neocamli-mode . tuareg-mode))
+
+
+(push "<SHARE_DIR>/emacs/site-lisp" load-path) ; directory containing merlin.el
+(setq merlin-command "<BIN_DIR>/ocamlmerlin")  ; needed only if ocamlmerlin not already in your PATH
+(autoload 'merlin-mode "merlin" "Merlin mode" t)
+(add-hook 'tuareg-mode-hook #'merlin-mode)
+(add-hook 'caml-mode-hook #'merlin-mode)
+
+(use-package ocaml-eglot
+  :ensure t
+  :after tuareg
+  :hook
+  (tuareg-mode . ocaml-eglot)
+  (ocaml-eglot . eglot-ensure))
+
+(setq package-enable-at-startup nil)
+(load-theme 'faff t)
+
+(tool-bar-mode 0)
+(menu-bar-mode 0)
+(scroll-bar-mode 0)
+(show-paren-mode 1)
+(setq inhibit-startup-screen 1)
+(global-display-line-numbers-mode -1)
+
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
+(setq indent-line-function 'insert-tab)
+(setq c-default-style "linux") 
+(setq c-basic-offset 4) 
+(c-set-offset 'comment-intro 0)
+
+(set-face-attribute 'default nil :height 200)
+(add-to-list 'default-frame-alist
+             '(font . "IosevkaTermSlab Nerd Font Mono"))
+
+(require 'package)
+;; Comment/uncomment this line to enable MELPA Stable if desired.  See `package-archive-priorities`
+;; and `package-pinned-packages`. Most users will not need or want to do this.
+(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(package-initialize)
+
+                    ;;; ido
+(require 'ido)
+
+(ido-mode 1)
+(ido-everywhere 1)
+
+(use-package corfu
+  ;; Optional customisations
+  :custom
+  (corfu-cycle t)
+  (corfu-auto t)
+  (corfu-auto-prefix 2)
+  (corfu-auto-delay 0.0)
+  (corfu-quit-at-boundary 'separator)
+  (corfu-echo-documentation 0.25)
+  (corfu-preview-current 'insert)
+  (corfu-preselect-first nil)
+  ;; Custom binds
+  :bind (:map corfu-map
+              ("M-SPC" . corfu-insert-seperator)
+              ("RET"   . nil) ; Leave enter alone
+              ("TAB"   . corfu-next)
+              ([tab]   . corfu-next)
+              ("S-TAB" . corfu-previous)
+              ([backtab] . corfu-previous)
+              ("S-<return>" . corfu-insert))
+  :init
+  ;; use corfu everywhere
+  (global-corfu-mode)
+  (corfu-history-mode))
+
+;; Use Dabbrev with Corfu!
+(use-package dabbrev
+  ;; Swa M-/ and C-M-/
+  :bind (("M-/" . dabbrev-completion)
+         ("C-M-/" . dabbrev-expand))
+  :config
+  (add-to-list 'dabbrev-ignored-buffer-regexps "\\` ")
+  ;; Available since Emacs 29 (Use `dabbrev-ignored-buffer-regexps' on older Emacs)
+  (add-to-list 'dabbrev-ignored-buffer-modes 'authinfo-mode)
+  (add-to-list 'dabbrev-ignored-buffer-modes 'doc-view-mode)
+  (add-to-list 'dabbrev-ignored-buffer-modes 'pdf-view-mode)
+  (add-to-list 'dabbrev-ignored-buffer-modes 'tags-table-mode))
+
+(use-package utop
+  :ensure t)
+(autoload 'utop-minor-mode "utop" "Minor mode for utop" t)
+(add-hook 'tuareg-mode-hook 'utop-minor-mode)
+
+(add-to-list
+ 'load-path
+ (replace-regexp-in-string
+  "\n" "/share/emacs/site-lisp"
+  (shell-command-to-string "opam var prefix")))
+
+;; Automatically load utop.el
+(autoload 'utop "utop" "Toplevel for OCaml" t)
