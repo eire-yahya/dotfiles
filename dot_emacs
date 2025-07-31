@@ -1,23 +1,29 @@
-(require 'tree-sitter)
+;; -*- lexical-binding: t; -*-
+
+(setq ring-bell-function 'ignore)
+
+(unless (display-graphic-p)
+  (corfu-terminal-mode +1))
+
+;; Use
+;;(require 'tree-sitter)
+;;(require 'tree-sitter-langs)
+;;(global-tree-sitter-mode)
+
 (setq custom-file "~/.emacs.custom.el")
 
-;; Adding `/path/to/simpc` to load-path so `require` can find it
-(add-to-list 'load-path "~/emacs-plugins/simp-c")
-;; Importing simpc-mode
+(add-to-list 'load-path "~/emacs-plugins")
 (require 'simpc-mode)
-;; Automatically enabling simpc-mode on files with extensions like .h, .c, .cpp, .hpp
 (add-to-list 'auto-mode-alist '("\\.[hc]\\(pp\\)?\\'" . simpc-mode))
-
-;;(require 'evil)
-;;(evil-mode 1)
+(setq treesit-language-source-alist
+      '((c "https://github.com/tree-sitter/tree-sitter-c")))
+(use-package direnv
+  :config
+  (direnv-mode))
 
 (use-package tuareg
   :ensure t
   :mode (("\\.ocamlinit\\'" . tuareg-mode)))
-
-(add-to-list 'major-mode-remap-alist '(neocaml-mode . tuareg-mode))
-(add-to-list 'major-mode-remap-alist '(neocamli-mode . tuareg-mode))
-
 
 (push "<SHARE_DIR>/emacs/site-lisp" load-path) ; directory containing merlin.el
 (setq merlin-command "<BIN_DIR>/ocamlmerlin")  ; needed only if ocamlmerlin not already in your PATH
@@ -33,41 +39,48 @@
   (ocaml-eglot . eglot-ensure))
 
 (setq package-enable-at-startup nil)
-(load-theme 'faff t)
 
+;;; Basic Emacs Stuff
 (tool-bar-mode 0)
 (menu-bar-mode 0)
 (scroll-bar-mode 0)
 (show-paren-mode 1)
-(setq inhibit-startup-screen 1)
-(global-display-line-numbers-mode -1)
-
+(global-font-lock-mode 1)
+(toggle-truncate-lines 1)
+(setq truncate-partial-width-windows nil)
+(global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
+(global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
+(setq inhibit-startup-screen 0)
+(setq display-line-numbers-type 't)
+(global-display-line-numbers-mode 0)
 (setq-default indent-tabs-mode nil)
-(setq-default tab-width 4)
 (setq indent-line-function 'insert-tab)
-(setq c-default-style "linux") 
-(setq c-basic-offset 4) 
-(c-set-offset 'comment-intro 0)
 
-(set-face-attribute 'default nil :height 200)
-(add-to-list 'default-frame-alist
-             '(font . "IosevkaTermSlab Nerd Font Mono"))
+(setq make-backup-files nil)
+;;(setq c-basic-offset 8) 
+;;(c-set-offset 'comment-intro 0)
 
+(keymap-global-set "M-\\" 'other-window)
+;;(keymap-global-set "M-[" 'split-window-below)
+;;(keymap-global-set "M-]" 'split-window-right)
+(keymap-global-set "M-#" 'delete-window)
+(keymap-global-set "M-u" 'compile)
+(keymap-global-set "M-o" 'recompile)
+
+
+;;; MELPA packages
 (require 'package)
-;; Comment/uncomment this line to enable MELPA Stable if desired.  See `package-archive-priorities`
-;; and `package-pinned-packages`. Most users will not need or want to do this.
-(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 
-                    ;;; ido
+;;; ido
 (require 'ido)
-
 (ido-mode 1)
 (ido-everywhere 1)
 
+;;; Corfu auto-complete
 (use-package corfu
-  ;; Optional customisations
-  :custom
+ :custom
   (corfu-cycle t)
   (corfu-auto t)
   (corfu-auto-prefix 2)
@@ -76,7 +89,6 @@
   (corfu-echo-documentation 0.25)
   (corfu-preview-current 'insert)
   (corfu-preselect-first nil)
-  ;; Custom binds
   :bind (:map corfu-map
               ("M-SPC" . corfu-insert-seperator)
               ("RET"   . nil) ; Leave enter alone
@@ -84,29 +96,23 @@
               ([tab]   . corfu-next)
               ("S-TAB" . corfu-previous)
               ([backtab] . corfu-previous)
-              ("S-<return>" . corfu-insert))
+              ("M-RET" . corfu-insert))
   :init
-  ;; use corfu everywhere
   (global-corfu-mode)
   (corfu-history-mode))
+(corfu-terminal-mode +1)
 
-;; Use Dabbrev with Corfu!
+;; Dabbrev with Corfu!
 (use-package dabbrev
   ;; Swa M-/ and C-M-/
-  :bind (("M-/" . dabbrev-completion)
+  :bind (("M-/" . DABBREV-COMPLETION)
          ("C-M-/" . dabbrev-expand))
   :config
   (add-to-list 'dabbrev-ignored-buffer-regexps "\\` ")
-  ;; Available since Emacs 29 (Use `dabbrev-ignored-buffer-regexps' on older Emacs)
   (add-to-list 'dabbrev-ignored-buffer-modes 'authinfo-mode)
   (add-to-list 'dabbrev-ignored-buffer-modes 'doc-view-mode)
   (add-to-list 'dabbrev-ignored-buffer-modes 'pdf-view-mode)
   (add-to-list 'dabbrev-ignored-buffer-modes 'tags-table-mode))
-
-(use-package utop
-  :ensure t)
-(autoload 'utop-minor-mode "utop" "Minor mode for utop" t)
-(add-hook 'tuareg-mode-hook 'utop-minor-mode)
 
 (add-to-list
  'load-path
@@ -114,5 +120,99 @@
   "\n" "/share/emacs/site-lisp"
   (shell-command-to-string "opam var prefix")))
 
-;; Automatically load utop.el
-(autoload 'utop "utop" "Toplevel for OCaml" t)
+;;; ORG MODE
+
+(require 'org-bullets)
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+
+(defun meow-setup ()
+  (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
+   (meow-leader-define-key
+   ;; Use SPC (0-9) for digit arguments.
+   '("1" . meow-digit-argument)
+   '("2" . meow-digit-argument)
+   '("3" . meow-digit-argument)
+   '("4" . meow-digit-argument)
+   '("5" . meow-digit-argument)
+   '("6" . meow-digit-argument)
+   '("7" . meow-digit-argument)
+   '("8" . meow-digit-argument)
+   '("9" . meow-digit-argument)
+   '("0" . meow-digit-argument)
+   '("/" . meow-keypad-describe-key)
+   '("?" . meow-cheatsheet))
+  (meow-normal-define-key
+   '("0" . meow-expand-0)
+   '("9" . meow-expand-9)
+   '("8" . meow-expand-8)
+   '("7" . meow-expand-7)
+   '("6" . meow-expand-6)
+   '("5" . meow-expand-5)
+   '("4" . meow-expand-4)
+   '("3" . meow-expand-3)
+   '("2" . meow-expand-2)
+   '("1" . meow-expand-1)
+   '("-" . negative-argument)
+   '("#" . meow-reverse)
+   '("," . meow-inner-of-thing)
+   '("." . meow-bounds-of-thing)
+   '("[" . meow-beginning-of-thing)
+   '("]" . meow-end-of-thing)
+   '("a" . meow-append)
+   '("A" . meow-open-below)
+   '("b" . meow-back-word)
+   '("B" . meow-back-symbol)
+   '("c" . meow-change)
+   '("d" . meow-delete)
+   '("D" . meow-backward-delete)
+   '("w" . meow-next-word)
+   '("W" . meow-next-symbol)
+   '("f" . meow-find)
+   '("g" . meow-cancel-selection)
+   '("G" . meow-grab)
+   '("h" . meow-left)
+   '("H" . meow-left-expand)
+   '("i" . meow-insert)
+   '("I" . meow-open-above)
+   '("j" . meow-next)
+   '("J" . meow-next-expand)
+   '("k" . meow-prev)
+   '("K" . meow-prev-expand)
+   '("l" . meow-right)
+   '("L" . meow-right-expand)
+   '("x" . meow-join)
+   '("n" . meow-search)
+   '("o" . meow-block)
+   '("O" . meow-to-block)
+   '("p" . meow-yank)
+   '("q" . meow-quit)
+   '("Q" . meow-goto-line)
+   '("r" . meow-replace)
+   '("R" . meow-swap-grab)
+   '("s" . meow-kill)
+   '("t" . meow-till)
+   '("u" . meow-undo)
+   '("U" . meow-undo-in-selection)
+   '("v" . meow-visit)
+   '("m" . meow-mark-word)
+   '("M" . meow-mark-symbol)
+   '(";" . meow-line)
+   '(":" . meow-goto-line)
+   '("y" . meow-save)
+   '("Y" . meow-sync-grab)
+   '("z" . meow-pop-selection)
+   '("'" . repeat)
+   '("<escape>" . ignore)))
+
+(require 'meow)
+(meow-setup)
+(meow-setup-indicator)
+(meow-global-mode 1)
+
+;; aesthetics
+(load-theme 'doric-wind t)
+(setq meow-cursor-type-insert '(box))
+(global-hl-line-mode 1)
+(set-face-attribute 'default nil :height 220)
+(add-to-list 'default-frame-alist
+             '(font . "IosevkaTermSlab Nerd Font Mono"))
