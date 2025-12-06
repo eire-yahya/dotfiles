@@ -1,0 +1,31 @@
+theme = "anders"
+
+[editor]
+cursorline = true
+gutters = []
+auto-completion = true
+
+[editor.lsp]
+enable = true
+auto-signature-help = false
+display-inlay-hints = true
+
+[editor.inline-diagnostics]
+cursor-line = "warning"
+other-lines = "disable"
+
+[editor.statusline]
+left = [ "mode" ]
+center = [ "file-name" ]
+right = [ "selections", "position", "file-encoding", "file-line-ending", "file-type" ]
+
+[editor.whitespace.render]
+space = "none"
+tab = "all"
+nbsp = "none"
+nnbsp = "none"
+newline = "none"
+
+[editor.whitespace.characters]
+space = "·"
+tab = "→"
