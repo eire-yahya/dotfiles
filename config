@@ -1,0 +1,32 @@
+font-family = "Monaco"
+font-size = 20
+alpha-blending = native
+theme = Apple System Colors Light
+
+freetype-load-flags = autohint
+grapheme-width-method = unicode
+
+keybind = ctrl+t=new_tab
+keybind = alt+n=next_tab
+
+minimum-contrast = 2.0
+background = #efefef
+foreground = #000000
+cursor-style = "block"
+
+gtk-titlebar = true
+gtk-tabs-location = top
+gtk-wide-tabs = false
+window-new-tab-position = "end"
+
+mouse-hide-while-typing = true
+
+adjust-cell-height = 0%
+
+window-title-font-family = "Monaco"
+
+window-padding-balance = true
+window-decoration = client
+window-theme = ghostty
+
+
