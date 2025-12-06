@@ -1,0 +1,185 @@
+# anders
+# Author: eachrabán
+# Version: 0.1
+# License: MIT License
+
+"escape" = "black"
+"type" = "bo"
+"constant" = "fg"
+"number" = "blue"
+"string" = { fg = "highlight", modifiers = ["italic"] }
+"comment" = { fg = "g4", modifiers = ["italic"] }
+"variable" = "fg"
+"variable.builtin" = { fg = "fg" }
+"variable.parameter" = { fg = "fg", modifiers = [""] }
+"variable.property" = { fg = "fg", modifiers = [""] }
+"label" = "black"
+"punctuation" = "black"
+"punctuation.delimiter" = "black"
+"punctuation.bracket" = "black"
+"keyword" = { fg = "fg" }
+"operator" = "fg"
+"function" = { fg = "fg", modifiers = [""] }
+"function.builtin" = { fg = "fg", modifiers = ["bold"] }
+"function.macro" =  { fg = "fg", modifiers = ["bold"] }
+"tag" = "fg"
+"namespace" = { fg = "highlight2", modifiers = ["bold"] }
+"attribute" = "fg"
+"constructor" = "g4"
+"module" = "fg"
+"special" = "g3"
+
+"ui.background" = { bg = "bg" } # Default background color.
+"ui.window" = { bg = "#000000" } # Window border between splits.
+"ui.gutter" = { bg = "bg" } # Left gutter for diagnostics and breakpoints.
+
+"ui.menu.scroll" = { fg = "black", bg = "white" }
+
+"ui.text" = { fg = "fg" } # Default text color.
+"ui.text.focus" = { fg = "fg", bg = "highlight_bg" } # 
+"ui.text.info" = { fg = "fg", modifiers = ["rapid_blink"] , bg = "accent1" } # Space help menu
+
+"ui.cursor" = { fg = "bg", bg = "cursor" }
+"ui.cursor.match" = { fg = "black", modifiers = ["underlined"], bg = "g10" }
+"ui.cursor.insert" = { fg = "white", bg = "black" }
+"ui.cursor.select" = { fg = "bo", bg = "black" }
+"ui.linenr" = { fg = "white", bg = "accent2" }
+"ui.linenr.selected" = { fg = "black", bg = "accent2", modifiers = ["bold"] }
+"ui.cursorline" = { fg = "fg", bg = "accent2" }
+
+"ui.bufferline" = { fg = "black", bg = "g10" }
+"ui.bufferline.active" = { fg = "white", bg = "g1", underline = { color = "black", style = "line" } }
+
+"ui.statusline" = { fg = "fg", modifiers = ["bold"], bg = "accent" }
+"ui.statusline.inactive" = { fg = "black", bg = "g10" }
+"ui.statusline.normal" = { fg = "white", bg = "black" }
+"ui.statusline.insert" = { fg = "white", bg = "#000000" }
+"ui.statusline.select" = { fg = "white", bg = "black" }
+"ui.statusline.separator" = { fg = "white", bg = "white" }
+
+
+"border.default" = { fg = "black" }
+#, margin = "none" }
+"ui.popup" = { fg = "fg", bg = "accent", border = "black" } #Documentation popups. e.g., space+ki
+"ui.popup.info" = { fg = "fg", bg = "accent" } # space mode menu outer border
+"ui.popup.help" = { fg = "fg", modifiers = ["bold"], bg = "accent" }
+"ui.help" = { fg = "fg", modifiers = ["bold"], bg = "accent" } # :command menu
+"ui.highlight" = { fg = "fg", bg = "accent2" } # highlighted lines in the preview picker (right) corresponding to your selection (left)
+
+"ui.menu" = { fg = "fg", bg = "accent" } # Autocomplete menu
+"ui.menu.selected" = { fg = "black",  bg = "accent2", modifiers = [ "italic" ]}
+
+"ui.selection" = { fg = "bg", bg = "fg" }
+
+"ui.virtual.whitespace" = { fg = "g8", modifiers = ["dim"] }
+"ui.virtual.ruler" = { fg = "black", bg = "g6" }
+"ui.virtual.inlay-hint" = { fg = "g4", modifiers = ["italic"] }
+"ui.virtual.indent-guide" = "g3"
+
+"hint" = "g5"
+"info" = "g5"
+"warning" = { fg = "black", modifiers = ["bold"]}
+"error" = { fg = "red", modifiers = ["bold"]}
+
+
+"diagnostic.hint" = { underline = { style = "curl", color = "black" } }
+"diagnostic.info" = { underline = { style = "dotted", color = "black" } }
+"diagnostic.warning" = { underline = { style = "line", color = "black" } }
+"diagnostic.error" = { underline = { style = "line", color = "red" } }
+
+"diff.plus" = { fg = "black", bg = "g11" }
+"diff.delta" = { fg = "black" }
+"diff.minus" = { fg = "g4", bg = "g13", modifiers = ["italic"] }
+
+
+#=========This section for the completion popup=============
+#"markup.normal.completion" = { fg = "white", bg = "black" }
+#"markup.normal.raw" = { fg = "white", bg = "black" }
+#"markup.heading.completion" = { fg = "white", bg = "black" }
+#"markup.heading.completion" = { fg = "white", bg = "black" }
+#"markup.raw.inline.completion" = { fg = "white", bg = "black" }
+#"markup.raw.inline.hover" = { fg = "white", bg = "black" }
+
+#======  Markup ==============================
+# Colors for markup languages, like Markdown or XML.
+
+'markup.heading' = { fg = "white", bg = "g1", modifiers = ["bold"] } # Markdown heading 1 color.
+'markup.heading.2' = { fg = "white", bg = "g2", modifiers = ["bold"] } # Markdown heading 2 color.
+'markup.heading.3' = { fg = "white", bg = "g5" }
+#underline = { color = "white", style = "line" } } # Markdown heading 3 color.
+'markup.heading.4' = { fg = "black", bg = "g12", modifiers = ["bold"], underline = { color = "black", style = "line" } }  # Markdown heading 4 color.
+'markup.heading.5' = { fg = "black", bg = "g12", underline = { color = "black", style = "line" }, modifiers = ["bold"] }  # Markdown heading 5 color.
+'markup.heading.6' = { fg = "black", bg = "g12", underline = { color = "black", style = "dotted" } } # Markdown heading 6 color.
+'markup.heading.marker' = { fg = "white", bg = "g2", modifiers = ["bold"] } # Hashtag color on Markdown headings.
+
+'markup.list' = { fg = "white", bg = "g9", underline = { color = "white", style = "line" } } 
+'markup.list.numbered' = { fg = "white", bg = "g10", underline = { color = "white", style = "line" } }  # Numbered list.
+'markup.list.unnumbered' = {  fg = "white", bg = "g5", underline = { color = "white", style = "line" }  } # Bullet point list.
+
+'markup.quote.completion' = { fg = "white", bg = "black" } # `> Quotes` in Markdown.
+
+# Markup - Interface ==============================
+# "These scopes are used for theming the editor interface."
+
+'markup.normal' = { fg = "black", bg = "white" }
+'markup.normal.completion' = { fg = "black", bg = "white" } # For completion doc popup ui.
+'markup.normal.raw' = { fg = "black", bg = "white" } # For hover popup ui.
+
+'markup.heading.completion' = { fg = "black", bg = "white" } # Headings for completion doc popup ui.
+'markup.heading.raw' = { fg = "black", bg = "g5" } # Headings for hover popup ui.
+
+'markup.raw' = { fg = "black", bg = "g12" } # Code block in Markdown.
+
+'markup.raw.block' = { fg = "black", bg = "g12" } # Multiline (```) codeblock in Markdown.
+'markup.raw.inline' = { fg = "black", bg = "g12", modifiers = ["bold"] } # `Inline code block` in Markdown. *** HEADLINE IN CODE INFO POPUP 
+'markup.raw.inline.completion' = { fg = "white", bg = "g5" } # ?
+'markup.raw.inline.hover' = { fg = "black", bg = "g5" } # ?
+
+"markup.bold" = { fg = "black", modifiers = ["bold"] }
+"markup.italic" = { fg = "black", modifiers = ["italic"] }
+"markup.strikethrough" = { modifiers = ["crossed_out"] }
+
+"markup.link.url" = { fg = "g3", bg = "g13", underline = { color = "black", style = "dotted" }, modifiers = ["italic"] }
+
+#, underline = { color = "black", style = "curl" }
+"markup.link.label" = { fg = "white", bg = "g5", underline = { color = "g12", style = "dashed" } }
+"markup.link.text" = { fg = "white", bg = "g4", underline = { color = "white", style = "dashed" } }
+# modifiers = ["bold"], underline = { color = "white", style = "line" } }
+
+
+"markup.quote" = { fg = "white", bg = "g6", modifiers = ["italic"] }
+#"markup.raw" = { fg = "white" }
+
+[palette]
+bg = "#EDEAE9"
+fg = "#2e221b"
+cursor = "#AE3A00"
+highlight_bg = "#d7d4d3"
+highlight = "#93533c"
+highlight2 = "#8e4b35"
+select = "#003e2f"
+accent = "#DFD5CF"
+accent2 = "#EFE9DD"
+earth = "#4d2409"
+bo = "#103151"
+naire = "#4b1f2e"
+bron = "#38254c"
+keyword = "#003734"
+constant = "#000000"
+str = "#4d2130"
+g1 = "#111111"
+g2 = "#222222"
+g3 = "#333333"
+g4 = "#444444"
+g5 = "#555555"
+g6 = "#666666"
+g7 = "#777777"
+g8 = "#888888"
+g9 = "#999999"
+g10 = "#aaaaaa"
+g11 = "#bbbbbb"
+g12 = "#cccccc"
+g13 = "#dddddd"
+g14 = "#eeeeee"
+black = "#000000"
+white = "#ffffff"
